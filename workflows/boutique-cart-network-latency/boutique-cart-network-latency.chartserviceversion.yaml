@@ -1,0 +1,40 @@
+apiVersion: litmuchaos.io/v1alpha1
+kind: ChartServiceVersion
+metadata:
+  createdAt: 2023-04-18T00:00:00Z
+  name: boutique-cart-network-latency
+  version: 0.1.0
+  annotations:
+    categories: boutique-cart
+    chartDescription: Injects chaos on boutique-cart microservice by introducing network latency in the network connections.
+spec:
+  displayName: Boutique Cart Network Latency
+  categoryDescription: >
+    This chaos experiment injects network latency to simulate increased network delays in the network connections of the boutique-cart microservice,
+    causing increased response times and testing resilience of the application.
+  experiments:
+    - name: network-latency
+      description: "Introduces network latency in the network connections of the boutique-cart microservice"
+  keywords:
+    - Kubernetes
+    - Boutique-cart
+    - Network Latency
+  platforms:
+    - GKE
+    - Minikube
+    - Packet(Kubeadm)
+    - EKS
+    - AKS
+  maintainers:
+    - name: Raj Babu
+      email: rajbabu.das@harness.io
+  provider:
+    name: Harness
+  links:
+    - name: Kubernetes Slack
+      url: https://slack.kubernetes.io/
+    - name: Documentation
+      url: https://docs.litmuschaos.io/docs/chaoshub/#generic-chaos
+  icon:
+    - url: 
+      mediatype: ""
