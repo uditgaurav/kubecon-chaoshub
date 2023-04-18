@@ -1,0 +1,41 @@
+apiVersion: litmuchaos.io/v1alpha1
+kind: ChartServiceVersion
+metadata:
+  createdAt: 2023-04-18T00:00:00Z
+  name: boutique-cart-pod-cpu-hog
+  version: 0.1.0
+  annotations:
+    categories: boutique-cart
+    chartDescription: Injects chaos on boutique-cart application by hogging CPU resources of the cart microservice.
+spec:
+  displayName: Boutique Cart Pod CPU Hog
+  categoryDescription: >
+    This chaos experiment injects chaos to hog CPU resources in a pod of the boutique-cart microservice,
+    causing increased CPU utilization and testing resilience of the application.
+  experiments:
+    - name: pod-cpu-hog
+      description: "Hogs CPU resources in a pod replica of the boutique-cart deployment"
+  keywords:
+    - Kubernetes
+    - Boutique-cart
+    - Pod
+    - CPU Hog
+  platforms:
+    - GKE
+    - Minikube
+    - Packet(Kubeadm)
+    - EKS
+    - AKS
+  maintainers:
+    - name: Raj Babu
+      email: rajbabu.das@harness.io
+  provider:
+    name: Harness
+  links:
+    - name: Kubernetes Slack
+      url: https://slack.kubernetes.io/
+    - name: Documentation
+      url: https://docs.litmuschaos.io/docs/chaoshub/#generic-chaos
+  icon:
+    - url: 
+      mediatype: ""
