@@ -12,16 +12,11 @@ metadata:
 spec:
   templates:
     - name: custom-chaos
-      inputs: {}
-      outputs: {}
-      metadata: {}
       steps:
         - - name: install-chaos-experiments
             template: install-chaos-experiments
-            arguments: {}
         - - name: pod-cpu-hog-go9
             template: pod-cpu-hog-go9
-            arguments: {}
     - name: install-chaos-experiments
       inputs:
         artifacts:
@@ -184,8 +179,7 @@ spec:
                       app.kubernetes.io/component: experiment-job
                       app.kubernetes.io/runtime-api-usage: "true"
                       app.kubernetes.io/version: 3.0.0-beta3
-      outputs: {}
-      metadata: {}
+
       container:
         name: ""
         image: litmuschaos/k8s:3.0.0-beta3
@@ -195,7 +189,7 @@ spec:
         args:
           - kubectl apply -f /tmp/pod-cpu-hog-go9.yaml -n
             {{workflow.parameters.adminModeNamespace}} &&  sleep 30
-        resources: {}
+
     - name: pod-cpu-hog-go9
       inputs:
         artifacts:
@@ -287,7 +281,7 @@ spec:
                                 type: string
                                 criteria: contains
                                 value: "[P000]"
-      outputs: {}
+
       metadata:
         labels:
           weight: "10"
@@ -297,7 +291,7 @@ spec:
         args:
           - -file=/tmp/chaosengine-pod-cpu-hog-go9.yaml
           - -saveName=/tmp/engine-name
-        resources: {}
+
   entrypoint: custom-chaos
   arguments:
     parameters:
