@@ -251,7 +251,7 @@ spec:
                               comparator:
                                 type: float
                                 criteria: <=
-                                value: "30"
+                                value: "60"
                           - name: cart-svc-availability-check
                             type: httpProbe
                             mode: Continuous
