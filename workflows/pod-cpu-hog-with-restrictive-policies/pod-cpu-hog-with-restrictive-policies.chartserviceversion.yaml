@@ -1,0 +1,44 @@
+apiVersion: litmuchaos.io/v1alpha1
+kind: ChartServiceVersion
+metadata:
+  createdAt: 2023-04-18T00:00:00Z
+  name: pod-cpu-hog-with-restrictive-policies
+  version: 0.1.0
+  annotations:
+    categories: chaos-policies
+    chartDescription: Injects chaos on boutique-cart microservice by introducing network loss in the network connections.
+spec:
+  displayName: Pod CPU Hog with Restrictive Policies
+  categoryDescription: >
+    Pod-CPU-Hog contains chaos to consume CPU resouces of specified containers in Kubernetes pods.    
+    - Causes CPU resource consumption on specified application containers using cgroups and litmus nsutil which consume CPU resources of the given target containers.
+    - It Can test the application's resilience to potential slowness/unavailability of some replicas due to high CPU load
+    - The application pod should be healthy once chaos is stopped. Expectation is that service-requests should be served despite chaos.
+  experiments:
+    - name: pod-cpu-hog
+      description: ""
+  keywords:
+    - Kubernetes
+    - K8S
+    - CPU
+    - Pod
+    - Stress
+  platforms:
+    - GKE
+    - Minikube
+    - Packet(Kubeadm)
+    - EKS
+    - AKS
+  maintainers:
+    - name: Raj Babu
+      email: rajbabu.das@harness.io
+  provider:
+    name: Harness
+  links:
+    - name: Kubernetes Slack
+      url: https://slack.kubernetes.io/
+    - name: Documentation
+      url: https://docs.litmuschaos.io/docs/chaoshub/#generic-chaos
+  icon:
+    - url: 
+      mediatype: ""

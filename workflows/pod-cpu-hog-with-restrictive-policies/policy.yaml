@@ -1,0 +1,89 @@
+---
+apiVersion: kyverno.io/v1
+kind: Policy
+metadata:
+  name: resource-stress-restrictive-policy
+  annotations:
+    policies.kyverno.io/category: Pod Security Standards
+    policies.kyverno.io/severity: medium
+    policies.kyverno.io/subject: Pod
+    policies.kyverno.io/description: >-
+      Provides all the restrictive policies used by the resource stress experiments
+spec:
+  validationFailureAction: Enforce
+  background: true
+  rules:
+    - name: capabilities
+      match:
+        resources:
+          kinds:
+            - Pod
+          selector:
+            matchLabels:
+              # applicable for the pod-level stress chaos faults
+              app.kubernetes.io/stress-chaos: "true"
+      validate:
+        message: >-
+          The provided capabilities are not allowed at securityContext.capabilities.add     
+        pattern:
+          spec:
+            containers:
+              - =(securityContext):
+                  =(capabilities):
+                    # allow only SYS_ADMIN capabilities
+                    =(add):
+                      - "SYS_ADMIN"
+    - name: host-namespaces
+      match:
+        resources:
+          kinds:
+            - Pod
+          selector:
+            matchLabels:
+              # applicable for the pod-level stress chaos faults
+              app.kubernetes.io/stress-chaos: "true"
+      validate:
+        message: >-
+          The spec.hostNetwork should be false, spec.hostIPC should be false, and spec.hostPID should be true.
+        pattern:
+          spec:
+            =(hostPID): "true"
+            =(hostIPC): "false"
+            =(hostNetwork): "false"
+    - name: check socket and sys host-path
+      match:
+        resources:
+          kinds:
+            - Pod
+          selector:
+            matchLabels:
+              # applicable for the pod-level stress chaos faults
+              app.kubernetes.io/stress-chaos: "true"
+      validate:
+        message: >-
+          Hostpath is restricted to use only specific path. It can be set at spec.volumes[*].hostPath.
+        pattern:
+          spec:
+            =(volumes):
+              # substitutes this path with an appropriate socket path
+              # ex: '/var/run/docker.sock', '/run/containerd/containerd.sock', '/run/crio/crio.sock'
+              - =(hostPath):
+                  path: "/run/containerd/containerd.sock | /sys"
+
+    - name: priviledged-containers
+      match:
+        resources:
+          kinds:
+            - Pod
+          selector:
+            matchLabels:
+              # applicable for the pod-level stress chaos faults
+              app.kubernetes.io/stress-chaos: "true"
+      validate:
+        message: >-
+          It should be run in privileged mode. It can be defined at spec.containers[*].securityContext.privileged.
+        pattern:
+          spec:
+            containers:
+              - =(securityContext):
+                  =(privileged): true
