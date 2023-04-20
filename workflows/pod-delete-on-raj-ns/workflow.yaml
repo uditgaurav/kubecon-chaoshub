@@ -212,9 +212,6 @@ spec:
                     - name: pod-delete
                       spec:
                         components:
-                          statusCheckTimeouts:
-                            delay: 1
-                            timeout: 5
                           env:
                             - name: TOTAL_CHAOS_DURATION
                               value: "10"
